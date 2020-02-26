@@ -1,8 +1,10 @@
 package com.rined.justtalk.controllers;
 
 import com.rined.justtalk.model.Message;
+import com.rined.justtalk.model.User;
 import com.rined.justtalk.services.MessageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +28,10 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String addMessage(@RequestParam(name = "text") String text,
+    public String addMessage(@AuthenticationPrincipal User user,
+                             @RequestParam(name = "text") String text,
                              @RequestParam(name = "tag", required = false) String tag) {
-        messageService.saveMessage(text, tag);
+        messageService.saveMessage(text, tag, user);
         return "redirect:/main";
     }
 

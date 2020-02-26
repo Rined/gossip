@@ -1,9 +1,11 @@
 package com.rined.justtalk.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -21,8 +23,17 @@ public class Message {
     @Column(name = "tag")
     private String tag;
 
-    public Message(String text, String tag) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+
+    public Message(String text, String tag, User user) {
         this.text = text;
         this.tag = tag;
+        this.author = user;
+    }
+
+    public String getAuthorName() {
+        return Objects.isNull(author) ? "<none>" : author.getUsername();
     }
 }

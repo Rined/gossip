@@ -1,6 +1,7 @@
 package com.rined.justtalk.services;
 
 import com.rined.justtalk.model.Message;
+import com.rined.justtalk.model.User;
 import com.rined.justtalk.repositories.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void saveMessage(String text, String tag) {
-        Message message = new Message(text, tag);
+    public void saveMessage(String text, String tag, User user) {
+        Message message = new Message(text, tag, user);
         repository.save(message);
     }
 
