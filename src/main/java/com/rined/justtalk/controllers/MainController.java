@@ -21,9 +21,13 @@ public class MainController {
     private final MessageService messageService;
 
     @GetMapping("/main")
-    public String main(Model model) {
-        List<Message> allMessages = messageService.getAllMessages();
-        model.addAttribute("messages", allMessages);
+    public String main(@RequestParam(name = "filter", required = false, defaultValue = "") String filter,
+                       Model model) {
+
+        List<Message> messagesByText = messageService.getMessagesByTag(filter);
+        model.addAttribute("messages", messagesByText);
+        model.addAttribute("filter", filter);
+
         return "main";
     }
 
@@ -33,14 +37,6 @@ public class MainController {
                              @RequestParam(name = "tag", required = false) String tag) {
         messageService.saveMessage(text, tag, user);
         return "redirect:/main";
-    }
-
-    @PostMapping(path = "/filter")
-    public String filter(@RequestParam(name = "filter") String filter,
-                         Model model) {
-        List<Message> messagesByText = messageService.getMessagesByTag(filter);
-        model.addAttribute("messages", messagesByText);
-        return "main";
     }
 
 }
