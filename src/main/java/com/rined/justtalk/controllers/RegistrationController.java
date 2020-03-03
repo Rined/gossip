@@ -20,8 +20,8 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, Model model) {
-        boolean isUserCreate = service.createUser(user);
-        if (!isUserCreate) {
+        boolean isUserExists = service.createUser(user);
+        if (!isUserExists) {
             model.addAttribute("message", "User already exists!");
             return "registration";
         }

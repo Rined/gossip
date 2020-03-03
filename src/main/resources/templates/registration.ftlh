@@ -3,6 +3,6 @@
 
 <@b.page>
     <h1>Add new user</h1>
-    <div style="color: red">${message}</div>
-    <@l.login "/registration" />
+    <div style="color: red">${message!}</div>
+    <@l.login "/registration" "Sign up"/>
 </@b.page>

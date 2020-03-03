@@ -28,7 +28,7 @@
     <form method="get" action="/main">
         <label>
             Фильтр: <br/>
-            <input type="text" name="filter" value="${filter}">
+            <input type="text" name="filter" value="${filter!}">
         </label>
         <input type="submit" value="Find">
     </form>

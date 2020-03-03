@@ -23,11 +23,9 @@ public class MainController {
     @GetMapping("/main")
     public String main(@RequestParam(name = "filter", required = false, defaultValue = "") String filter,
                        Model model) {
-
         List<Message> messagesByText = messageService.getMessagesByTag(filter);
         model.addAttribute("messages", messagesByText);
         model.addAttribute("filter", filter);
-
         return "main";
     }
 
