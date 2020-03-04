@@ -9,14 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private static final Set<String> allRoles = Arrays.stream(Role.values())
-            .map(Role::name)
-            .collect(Collectors.toSet());
     private final UserRepository repository;
 
     @Override
@@ -27,7 +23,7 @@ public class UserServiceImpl implements UserService {
             user.setRoles(Collections.singleton(Role.USER));
             repository.save(user);
         }
-        return !exists;
+        return exists;
     }
 
     @Override
@@ -37,10 +33,15 @@ public class UserServiceImpl implements UserService {
         Set<Role> userRoles = user.getRoles();
         userRoles.clear();
         formData.keySet().stream()
-                .filter(allRoles::contains)
-                .forEach(role -> user.getRoles().add(Role.valueOf(role)));
+                .filter(Role.roles()::contains)
+                .forEach(role -> userRoles.add(Role.valueOf(role)));
 
         repository.save(user);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return repository.findAll();
     }
 
     @Override

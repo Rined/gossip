@@ -14,14 +14,15 @@ public class RegistrationController {
     private final UserService service;
 
     @GetMapping("/registration")
-    public String registration(){
+    public String registration() {
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Model model) {
+    public String addUser(User user,
+                          Model model) {
         boolean isUserExists = service.createUser(user);
-        if (!isUserExists) {
+        if (isUserExists) {
             model.addAttribute("message", "User already exists!");
             return "registration";
         }
