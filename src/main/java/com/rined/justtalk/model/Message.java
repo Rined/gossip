@@ -26,10 +26,14 @@ public class Message {
     @JoinColumn(name = "user_id")
     private User author;
 
-    public Message(String text, String tag, User user) {
+    @Column(name = "filename")
+    private String filename;
+
+    public Message(String text, String tag, User user, String filename) {
         this.text = text;
         this.tag = tag;
         this.author = user;
+        this.filename = filename;
     }
 
     public String getAuthorName() {

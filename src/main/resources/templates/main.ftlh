@@ -7,7 +7,7 @@
     </div>
     <h3>Create message:</h3>
     <div>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div>
                 <label>
                     Message: <br/>
@@ -19,6 +19,9 @@
                     Tag:<br/>
                     <input type="text" name="tag" placeholder="Input tag...">
                 </label>
+            </div>
+            <div>
+                <input type="file" name="file">
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
             <button type="submit">Add</button>
@@ -38,6 +41,11 @@
             <span>${message.text}</span>
             <i>${message.tag}</i>
             <strong>${message.authorName}</strong>
+            <div>
+                <#if message.filename??>
+                    <img src="/img/${message.filename}" alt="${message.filename}">
+                </#if>
+            </div>
         </div>
     <#else>
         <div>No messages</div>

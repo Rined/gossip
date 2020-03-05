@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,8 +33,9 @@ public class MainController {
     @PostMapping("/main")
     public String addMessage(@AuthenticationPrincipal User user,
                              @RequestParam(name = "text") String text,
-                             @RequestParam(name = "tag", required = false) String tag) {
-        messageService.saveMessage(text, tag, user);
+                             @RequestParam(name = "tag", required = false) String tag,
+                             @RequestParam("file") MultipartFile file) {
+        messageService.saveMessage(text, tag, user, file);
         return "redirect:/main";
     }
 
