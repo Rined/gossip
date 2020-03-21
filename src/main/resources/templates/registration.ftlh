@@ -2,7 +2,7 @@
 <#import "macros/login.ftlh" as l>
 
 <@b.page>
-    <h1>Add new user</h1>
+    <h3>Create your account</h3>
     <div style="color: red">${message!}</div>
-    <@l.login "/registration" "Sign up"/>
+    <@l.login "/registration" "Sign up" true/>
 </@b.page>

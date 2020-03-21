@@ -2,7 +2,6 @@
 <#import "macros/login.ftlh" as l>
 
 <@b.page>
-<h1>Login page</h1>
-<@l.login "/login" "Sign in"/>
-<a href="/registration">Add new user</a>
+<h3>Sign in to Just-Talk</h3>
+<@l.login "/login" "Sign in" false/>
 </@b.page>
