@@ -25,18 +25,21 @@ public class UserServiceImpl implements UserService {
             user.setRoles(Collections.singleton(Role.USER));
             user.setActivationCode(UUID.randomUUID().toString());
             repository.save(user);
-
-            if (!StringUtils.isEmpty(user.getEmail())) {
-                String message = String.format(
-                        "Hello, %s!\nWelcome to Just-Talk! " +
-                                "Please, visit next link for activation: http://localhost:8080/activate/%s",
-                        user.getUsername(),
-                        user.getActivationCode()
-                );
-                sender.send(user.getEmail(), "Activation code", message);
-            }
+            sendMessage(user);
         }
         return exists;
+    }
+
+    private void sendMessage(User user) {
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            String message = String.format(
+                    "Hello, %s!\nWelcome to Just-Talk! " +
+                            "Please, visit next link for activation: http://localhost:8080/activate/%s",
+                    user.getUsername(),
+                    user.getActivationCode()
+            );
+            sender.send(user.getEmail(), "Activation code", message);
+        }
     }
 
     @Override
@@ -67,6 +70,30 @@ public class UserServiceImpl implements UserService {
             repository.save(usr);
         });
         return true;
+    }
+
+    @Override
+    public void updateProfile(User user, String password, String email) {
+        String userEmail = user.getEmail();
+
+        boolean isEmailChanged = (Objects.nonNull(email) && !email.equals(userEmail))
+                || (Objects.nonNull(userEmail) && !userEmail.equals(email));
+
+        if (isEmailChanged) {
+            user.setEmail(email);
+
+            if (!StringUtils.isEmpty(email)) {
+                user.setActivationCode(UUID.randomUUID().toString());
+            }
+        }
+
+        if (!StringUtils.isEmpty(password))
+            user.setPassword(password);
+
+        repository.save(user);
+
+        if (isEmailChanged)
+            sendMessage(user);
     }
 
     @Override

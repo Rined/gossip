@@ -5,6 +5,7 @@ import com.rined.justtalk.model.User;
 import com.rined.justtalk.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +15,18 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
-    private final UserService service;
+    private final UserService userService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String userList(Model model) {
-        model.addAttribute("users", service.findAll());
+        model.addAttribute("users", userService.findAll());
         return "userList";
     }
 
     @GetMapping("{user}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String userEdit(@PathVariable(name = "user") User user,
                            Model model) {
         model.addAttribute("user", user);
@@ -33,10 +35,29 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String updateUser(@RequestParam Map<String, String> form, //Переменное число полей, получаем всё из формы. Чекбоксы передаются только если выбраны
                              @RequestParam("username") String username,
                              @RequestParam("id") User user) {
-        service.updateUser(user, username, form);
+        userService.updateUser(user, username, form);
         return "redirect:/user";
     }
+
+    @GetMapping("profile")
+    public String getProfile(@AuthenticationPrincipal User user,
+                             Model model) {
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("email", user.getEmail());
+
+        return "profile";
+    }
+
+    @PostMapping("profile")
+    public String updateProfile(@AuthenticationPrincipal User user,
+                                @RequestParam("password") String password,
+                                @RequestParam("email") String email){
+        userService.updateProfile(user, password, email);
+        return "redirect:/user/profile";
+    }
+
 }
