@@ -23,20 +23,21 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void saveMessage(String text, String tag, User user, MultipartFile file) {
-        try {
-            String fileName = uploadFileService.saveFile(file);
-            Message message = new Message(text, tag, user, fileName);
-            repository.save(message);
-        } catch (IOException e) {
-            throw new RuntimeException("Problem while save file!", e);
-        }
-    }
-
-    @Override
     public List<Message> getMessagesByTag(String text) {
         if (Objects.isNull(text) || text.isEmpty())
             return getAllMessages();
         return repository.findMessagesByTag(text);
+    }
+
+    @Override
+    public void saveMessage(Message message, User user, MultipartFile file) {
+        try {
+            String fileName = uploadFileService.saveFile(file);
+            message.setAuthor(user);
+            message.setFilename(fileName);
+            repository.save(message);
+        } catch (IOException e) {
+            throw new RuntimeException("Problem while save file!", e);
+        }
     }
 }

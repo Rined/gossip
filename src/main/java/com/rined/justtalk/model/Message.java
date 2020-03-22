@@ -1,12 +1,14 @@
 package com.rined.justtalk.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
-@Getter
+@Data
 @NoArgsConstructor
 @Entity(name = "message")
 @Table(name = "message")
@@ -17,9 +19,12 @@ public class Message {
     private long id;
 
     @Column(name = "text")
+    @NotBlank(message = "Please fill the message")
+    @Length(max = 2048, message = "Message to long")
     private String text;
 
     @Column(name = "tag")
+    @Length(max = 255, message = "Tag to long")
     private String tag;
 
     @ManyToOne(fetch = FetchType.EAGER)

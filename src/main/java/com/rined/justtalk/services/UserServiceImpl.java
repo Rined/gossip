@@ -6,6 +6,7 @@ import com.rined.justtalk.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -16,6 +17,7 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final MailSender sender;
+    private final PasswordEncoder encoder;
 
     @Override
     public boolean createUser(User user) {
@@ -24,6 +26,7 @@ public class UserServiceImpl implements UserService {
             user.setActive(true);
             user.setRoles(Collections.singleton(Role.USER));
             user.setActivationCode(UUID.randomUUID().toString());
+            user.setPassword(encoder.encode(user.getPassword()));
             repository.save(user);
             sendMessage(user);
         }
@@ -88,7 +91,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!StringUtils.isEmpty(password))
-            user.setPassword(password);
+            user.setPassword(encoder.encode(password));
 
         repository.save(user);
 

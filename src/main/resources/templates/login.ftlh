@@ -2,7 +2,11 @@
 <#import "macros/login.ftlh" as l>
 
 <@b.page>
-<h3>Sign in to Just-Talk</h3>
-<div>${message!}</div>
-<@l.login "/login" "Sign in" false/>
+    <h3>Sign in to Just-Talk</h3>
+    <#if Session?? && Session.SPRING_SECURITY_LAST_EXCEPTION??>
+        <div class="alert alert-danger" role="alert">
+            ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
+        </div>
+    </#if>
+    <@l.login "/login" "Sign in" false/>
 </@b.page>

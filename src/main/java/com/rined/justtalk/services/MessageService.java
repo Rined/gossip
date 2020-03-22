@@ -10,7 +10,7 @@ public interface MessageService {
 
     List<Message> getAllMessages();
 
-    void saveMessage(String text, String tag, User user, MultipartFile file);
-
     List<Message> getMessagesByTag(String text);
+
+    void saveMessage(Message message, User user, MultipartFile file);
 }

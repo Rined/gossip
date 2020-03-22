@@ -14,17 +14,26 @@
        aria-controls="collapseExample">
         Add new message
     </a>
-    <div class="collapse" id="newMessage">
+    <div class="collapse <#if message??>show</#if>" id="newMessage">
         <div class="form-group mt-3">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="messageField" class="sr-only">Message</label>
-                    <input type="text" id="messageField" name="text" class="form-control"
+                    <input type="text" id="messageField" name="text"
+                           class="form-control ${(textError??)?string('is-invalid', '')}"
+                           value="<#if message??>${message.text}</#if>"
                            placeholder="Input message...">
+                    <#if textError??>
+                        <div class="invalid-feedback">${textError}</div>
+                    </#if>
                 </div>
                 <div class="form-group">
                     <label for="tagField" class="sr-only">Message</label>
-                    <input type="text" id="tagField" name="tag" class="form-control" placeholder="Input tag...">
+                    <input type="text" id="tagField" name="tag" class="form-control" placeholder="Input tag..."
+                           value="<#if message??>${message.tag}</#if>">
+                    <#if tagError??>
+                        <div class="invalid-feedback">${tagError}</div>
+                    </#if>
                 </div>
                 <div class="form-group">
                     <div class="custom-file">
