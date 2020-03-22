@@ -1,7 +1,5 @@
 package com.rined.justtalk.services;
 
-import com.rined.justtalk.services.UploadFileService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

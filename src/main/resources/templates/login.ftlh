@@ -3,5 +3,6 @@
 
 <@b.page>
 <h3>Sign in to Just-Talk</h3>
+<div>${message!}</div>
 <@l.login "/login" "Sign in" false/>
 </@b.page>

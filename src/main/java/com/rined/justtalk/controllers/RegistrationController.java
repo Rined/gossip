@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -21,12 +22,19 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(User user,
                           Model model) {
-        boolean isUserExists = service.createUser(user);
-        if (isUserExists) {
+        if (service.createUser(user)) {
             model.addAttribute("message", "User already exists!");
             return "registration";
         }
         return "redirect:/login";
+    }
+
+    @GetMapping("/activate/{code}")
+    public String activate(Model model, @PathVariable("code") String code) {
+        boolean isActivated = service.activateUser(code);
+        model.addAttribute("message",
+                isActivated ? "User successfully activated" : "Activation code is not found!");
+        return "login";
     }
 
 }
