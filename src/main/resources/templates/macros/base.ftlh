@@ -1,4 +1,4 @@
-<#macro page>
+<#macro page isRegistration=false>
     <!doctype html>
     <html lang="en">
     <head>
@@ -9,6 +9,9 @@
         <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
         <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <title>Just talk</title>
+        <#if isRegistration>
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        </#if>
     </head>
     <body>
     <#include "navbar.ftlh">
