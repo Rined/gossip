@@ -13,4 +13,6 @@ public interface MessageService {
     List<Message> getMessagesByTag(String text);
 
     void saveMessage(Message message, User user, MultipartFile file);
+
+    void saveMessage(Message message, String text, String tag, MultipartFile file);
 }

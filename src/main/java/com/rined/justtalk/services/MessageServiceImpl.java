@@ -40,4 +40,17 @@ public class MessageServiceImpl implements MessageService {
             throw new RuntimeException("Problem while save file!", e);
         }
     }
+
+    @Override
+    public void saveMessage(Message message, String text, String tag, MultipartFile file) {
+        try {
+            String fileName = uploadFileService.saveFile(file);
+            message.setFilename(fileName);
+            message.setText(text);
+            message.setTag(tag);
+            repository.save(message);
+        } catch (IOException e) {
+            throw new RuntimeException("Problem while save file!", e);
+        }
+    }
 }

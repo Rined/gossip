@@ -9,10 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -59,4 +56,27 @@ public class MainController {
         return "main";
     }
 
+    @GetMapping("/user-messages/{user}")
+    public String userMessages(@AuthenticationPrincipal User currentUser,
+                               @PathVariable("user") User user,
+                               @RequestParam(value = "message", required = false) Message message,
+                               Model model) {
+        model.addAttribute("messages", user.getMessages());
+        model.addAttribute("message", message);
+        model.addAttribute("isCurrentUser", currentUser.equals(user));
+        return "userMessages";
+    }
+
+    @PostMapping("/user-messages/{user}")
+    public String updateMessage(@AuthenticationPrincipal User currentUser,
+                                @PathVariable("user") Long id,
+                                @RequestParam("id") Message message,
+                                @RequestParam("text") String text,
+                                @RequestParam("tag") String tag,
+                                @RequestParam("file") MultipartFile file) {
+        if (message.getAuthor().equals(currentUser)) {
+            messageService.saveMessage(message, text, tag, file);
+        }
+        return String.format("redirect:/user-messages/%s", id);
+    }
 }
