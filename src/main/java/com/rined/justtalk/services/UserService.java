@@ -17,4 +17,8 @@ public interface UserService extends UserDetailsService {
     boolean activateUser(String code);
 
     void updateProfile(User user, String password, String email);
+
+    void subscribe(User currentUser, User user);
+
+    void unsubscribe(User currentUser, User user);
 }

@@ -100,6 +100,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void subscribe(User currentUser, User user) {
+        user.getSubscribers().add(currentUser);
+        repository.save(user);
+    }
+
+    @Override
+    public void unsubscribe(User currentUser, User user) {
+        user.getSubscribers().remove(currentUser);
+        repository.save(user);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User userByName = repository.findByUsername(username);
         if (Objects.isNull(userByName)) {
