@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
 public class RegistrationController {
-    // вроде должны в пост пойти
     private static final String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
 
     private final UserService service;
