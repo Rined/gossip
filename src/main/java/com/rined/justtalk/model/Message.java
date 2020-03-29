@@ -1,12 +1,14 @@
 package com.rined.justtalk.model;
 
+import com.rined.justtalk.utils.Utils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -34,6 +36,14 @@ public class Message {
     @Column(name = "filename")
     private String filename;
 
+    @ManyToMany
+    @JoinTable(
+            name = "message_likes",
+            joinColumns = {@JoinColumn(name = "message_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();
+
     public Message(String text, String tag, User user, String filename) {
         this.text = text;
         this.tag = tag;
@@ -42,6 +52,6 @@ public class Message {
     }
 
     public String getAuthorName() {
-        return Objects.isNull(author) ? "<none>" : author.getUsername();
+        return Utils.getAuthorName(author);
     }
 }

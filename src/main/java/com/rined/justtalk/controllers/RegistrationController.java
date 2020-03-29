@@ -4,7 +4,7 @@ import com.rined.justtalk.model.User;
 import com.rined.justtalk.model.dto.CaptchaResponseDto;
 import com.rined.justtalk.properties.RecaptchaProperties;
 import com.rined.justtalk.services.UserService;
-import com.rined.justtalk.utils.ControllerUtils;
+import com.rined.justtalk.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,7 +61,7 @@ public class RegistrationController {
 
         if (isConfirmationEmpty || bindingResult.hasErrors()
                 || Objects.nonNull(response) && !response.isSuccess()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            Map<String, String> errors = Utils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             model.addAttribute("htmlSecret", recaptchaProperties.getHtmlSecret());
             return "registration";
