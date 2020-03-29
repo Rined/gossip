@@ -1,12 +1,13 @@
 package com.rined.justtalk.config;
 
+import com.rined.justtalk.interceptors.RedirectInterceptor;
 import com.rined.justtalk.services.UploadFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -36,6 +37,11 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations(String.format("file:/%s/", uploadFileService.getUploadFolderPath()));
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new RedirectInterceptor());
     }
 
     @Override

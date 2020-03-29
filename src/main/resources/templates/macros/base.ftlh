@@ -9,10 +9,11 @@
         <script src="https://kit.fontawesome.com/caaa7e48d5.js" crossorigin="anonymous"></script>
         <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
         <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <title>Just talk</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"></script>
         <#if isRegistration>
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         </#if>
+        <title>Just talk</title>
     </head>
     <body>
     <#include "navbar.ftlh">
