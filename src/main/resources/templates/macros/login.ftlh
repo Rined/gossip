@@ -65,11 +65,15 @@
     </form>
 </#macro>
 
-<#macro logout>
-    <form action="/logout" method="post">
-        <button type="submit" class="btn btn-primary mb-2">
-            <#if user??>Sign Out<#else>Log in</#if>
-        </button>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-    </form>
+<#macro loginLogout>
+    <#if user??>
+        <form action="/logout" method="post">
+            <button type="submit" class="btn btn-primary mb-1">
+               Sign Out
+            </button>
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        </form>
+    <#else>
+        <a href="/login" class="btn btn-primary mb-1">Log in</a>
+    </#if>
 </#macro>

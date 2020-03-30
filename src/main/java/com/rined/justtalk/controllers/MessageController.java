@@ -103,7 +103,6 @@ public class MessageController {
 
         UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(referer).build();
         redirectAttributes.addAllAttributes(uriComponents.getQueryParams());
-
         return "redirect:" + uriComponents.getPath();
     }
 }

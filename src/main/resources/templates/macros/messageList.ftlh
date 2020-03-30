@@ -39,4 +39,3 @@
         <div>No messages</div>
     </#list>
 </div>
-<@p.pager url page/>

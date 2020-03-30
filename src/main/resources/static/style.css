@@ -1,8 +1,4 @@
-body {
-    color: #283f5f;
-}
-
 .turbolinks-progress-bar {
     height: 3px;
-    background-color: green;
+    background-color: aqua;
 }
