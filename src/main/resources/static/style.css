@@ -2,3 +2,23 @@
     height: 3px;
     background-color: aqua;
 }
+
+.table-column-icon-th {
+    width: 10%;
+    text-align: center;
+}
+
+.table-column-th {
+    width: 26%;
+    text-align: center;
+}
+
+.table-column {
+    text-align: center;
+}
+
+.none-border-btn {
+    padding: 0;
+    border: none;
+    background: none;
+}

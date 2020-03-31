@@ -19,7 +19,9 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             ") from message m left join m.likes ml " +
             "where m.tag = :tag " +
             "group by m")
-    Page<MessageDto> findMessagesByTag(@Param("tag") String tag, @Param("user") User user, Pageable pageable);
+    Page<MessageDto> findMessagesByTag(@Param("tag") String tag,
+                                       @Param("user") User user,
+                                       Pageable pageable);
 
     @Query("select new com.rined.justtalk.model.dto.MessageDto(" +
             "m, " +
@@ -27,14 +29,17 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "(sum(case when ml =:user then 1 else 0 end) > 0)" +
             ") from message m left join m.likes ml " +
             "group by m")
-    Page<MessageDto> findAll(@Param("user") User user, Pageable pageable);
+    Page<MessageDto> findAll(@Param("user") User user,
+                             Pageable pageable);
 
     @Query("select new com.rined.justtalk.model.dto.MessageDto(" +
             "m, " +
             "count(ml), " +
-            "(sum(case when ml =:user then 1 else 0 end) > 0)" +
+            "(sum(case when ml=:user then 1 else 0 end) > 0)" +
             ") from message m left join m.likes ml " +
-            "where m.author = :author " +
+            "where m.author=:author " +
             "group by m")
-    Page<MessageDto> findByUser(@Param("author") User messageAuthor, @Param("user") User user, Pageable pageable);
+    Page<MessageDto> findMessageDtoBy(@Param("user") User user,
+                                      @Param("author") User messageAuthor,
+                                      Pageable pageable);
 }

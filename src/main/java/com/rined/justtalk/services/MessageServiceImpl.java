@@ -58,6 +58,6 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Page<MessageDto> userMessageList(Pageable pageable, User messageAuthor, User currentUser) {
-        return repository.findByUser(messageAuthor, currentUser, pageable);
+        return repository.findMessageDtoBy(messageAuthor, currentUser, pageable);
     }
 }
