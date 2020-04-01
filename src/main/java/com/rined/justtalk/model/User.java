@@ -3,6 +3,7 @@ package com.rined.justtalk.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -67,6 +68,9 @@ public class User implements UserDetails {
     )
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> subscriptions = new HashSet<>();
+
+    @OneToMany(mappedBy = "username", fetch = FetchType.LAZY)
+    private Set<Session> sessions = new HashSet<>();
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);

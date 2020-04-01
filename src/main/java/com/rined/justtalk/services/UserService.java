@@ -1,6 +1,7 @@
 package com.rined.justtalk.services;
 
 import com.rined.justtalk.model.User;
+import com.rined.justtalk.model.dto.UserStatusDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +15,7 @@ public interface UserService extends UserDetailsService {
 
     void updateUser(User user, String newUserName, Map<String, String> formData);
 
-    Page<User> findAll(Pageable pageable);
+    Page<UserStatusDto> findAll(Pageable pageable);
 
     boolean activateUser(String code);
 

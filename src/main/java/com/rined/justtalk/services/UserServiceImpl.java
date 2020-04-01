@@ -1,7 +1,9 @@
 package com.rined.justtalk.services;
 
+import com.rined.justtalk.converter.UserConverter;
 import com.rined.justtalk.model.Role;
 import com.rined.justtalk.model.User;
+import com.rined.justtalk.model.dto.UserStatusDto;
 import com.rined.justtalk.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final UserConverter userConverter;
     private final UserRepository repository;
     private final MailSender sender;
     private final PasswordEncoder encoder;
@@ -54,19 +57,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user, String newUsername, Map<String, String> formData) {
         user.setUsername(newUsername);
-
         Set<Role> userRoles = user.getRoles();
         userRoles.clear();
         formData.keySet().stream()
                 .filter(Role.roles()::contains)
                 .forEach(role -> userRoles.add(Role.valueOf(role)));
-
         repository.save(user);
     }
 
     @Override
-    public Page<User> findAll(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<UserStatusDto> findAll(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(userConverter::toUserStatusDto);
     }
 
     @Override

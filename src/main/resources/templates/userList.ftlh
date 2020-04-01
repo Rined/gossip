@@ -2,8 +2,8 @@
 <#import "macros/pager.ftlh" as p />
 
 <@b.page>
-    <@p.pager url page/>
     <h3>List of users:</h3>
+    <@p.pager url page/>
     <table class="table">
         <thead>
         <tr>
@@ -27,7 +27,7 @@
                     </form>
                 </td>
                 <td class="table-column">
-                    ${user.username}
+                    <a href="/user-messages/${user.id}">${user.username}</a>
                 </td>
                 <td class="table-column">
                     <#list user.roles as role>
@@ -35,7 +35,11 @@
                     </#list>
                 </td>
                 <td class="table-column">
-                    online
+                    <#if user.active>
+                        <img src="online.svg" alt="online"> online
+                        <#else>
+                        <img src="offline.svg" alt="offline"> offline
+                    </#if>
                 </td>
             </tr>
         </#list>

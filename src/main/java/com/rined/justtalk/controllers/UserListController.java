@@ -23,7 +23,7 @@ public class UserListController {
     private final UserService userService;
 
     @GetMapping
-    public String userList(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 25) Pageable pageable,
+    public String userList(@PageableDefault(sort = {"username"}, direction = Sort.Direction.ASC, size = 25) Pageable pageable,
                            Model model) {
         model.addAttribute("page", userService.findAll(pageable));
         model.addAttribute("url", "/users");
