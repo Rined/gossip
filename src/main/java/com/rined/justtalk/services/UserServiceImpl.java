@@ -4,9 +4,13 @@ import com.rined.justtalk.model.Role;
 import com.rined.justtalk.model.User;
 import com.rined.justtalk.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.Session;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,6 +22,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final MailSender sender;
     private final PasswordEncoder encoder;
+    private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
+
 
     @Override
     public boolean createUser(User user) {
@@ -59,8 +65,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return repository.findAll();
+    public Page<User> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Override
@@ -109,6 +115,11 @@ public class UserServiceImpl implements UserService {
     public void unsubscribe(User currentUser, User user) {
         user.getSubscribers().remove(currentUser);
         repository.save(user);
+    }
+
+    @Override
+    public void kickUser(User user) {
+        sessionRepository.findByPrincipalName(user.getUsername()).keySet().forEach(sessionRepository::deleteById);
     }
 
     @Override

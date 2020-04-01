@@ -1,7 +1,7 @@
 <#import "macros/base.ftlh" as b>
 
 <@b.page>
-    <h3>Change profile: ${username}</h3>
+    <h3>Change profile: <u>${username}</u></h3>
     <div>${message!}</div>
     <form method="post">
         <div class="form-group row">

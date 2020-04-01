@@ -1,6 +1,8 @@
 package com.rined.justtalk.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -50,23 +52,23 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Message> messages;
 
-    @ManyToMany
     @JoinTable(
             name = "user_subscriptions",
             joinColumns = {@JoinColumn(name = "channel_id")},
             inverseJoinColumns = {@JoinColumn(name = "subscriber_id")}
     )
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> subscribers = new HashSet<>();
 
-    @ManyToMany
     @JoinTable(
             name = "user_subscriptions",
             joinColumns = {@JoinColumn(name = "subscriber_id")},
             inverseJoinColumns = {@JoinColumn(name = "channel_id")}
     )
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> subscriptions = new HashSet<>();
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
 

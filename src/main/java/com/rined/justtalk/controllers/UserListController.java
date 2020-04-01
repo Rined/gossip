@@ -4,13 +4,15 @@ import com.rined.justtalk.model.Role;
 import com.rined.justtalk.model.User;
 import com.rined.justtalk.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Comparator;
 import java.util.Map;
 
 @Controller
@@ -18,12 +20,13 @@ import java.util.Map;
 @RequestMapping("/users")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserListController {
-    private final SessionRegistry sessionRegistry;
     private final UserService userService;
 
     @GetMapping
-    public String userList(Model model) {
-        model.addAttribute("users", userService.findAll());
+    public String userList(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 25) Pageable pageable,
+                           Model model) {
+        model.addAttribute("page", userService.findAll(pageable));
+        model.addAttribute("url", "/users");
         return "userList";
     }
 
@@ -45,7 +48,7 @@ public class UserListController {
 
     @PostMapping("{user}/kick")
     public String kickUser(@PathVariable(name = "user") User user) {
-        List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
+        userService.kickUser(user);
         return "redirect:/users";
     }
 }

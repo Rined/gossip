@@ -15,6 +15,7 @@ import java.util.Set;
 @Entity(name = "message")
 @Table(name = "message")
 public class Message {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,12 +37,12 @@ public class Message {
     @Column(name = "filename")
     private String filename;
 
-    @ManyToMany
     @JoinTable(
             name = "message_likes",
             joinColumns = {@JoinColumn(name = "message_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> likes = new HashSet<>();
 
     public Message(String text, String tag, User user, String filename) {

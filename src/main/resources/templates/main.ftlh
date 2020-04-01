@@ -7,7 +7,7 @@
             <input type="text" class="form-control" id="searchField" name="filter" value="${filter!}"
                    placeholder="Search by tag"/>
         </div>
-        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="submit" class="btn btn-outline-primary">Search</button>
     </form>
 
     <#include "macros/messageEdit.ftlh" />

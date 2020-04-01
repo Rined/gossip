@@ -1,6 +1,8 @@
 <#import "macros/base.ftlh" as b>
+<#import "macros/pager.ftlh" as p />
 
 <@b.page>
+    <@p.pager url page/>
     <h3>List of users:</h3>
     <table class="table">
         <thead>
@@ -13,13 +15,14 @@
         </tr>
         </thead>
         <tbody>
-        <#list users as user>
+        <#list page.content as user>
             <tr>
                 <td class="table-column">
                     <a href="/users/${user.id}"><img src="edit.svg" alt="edit"></a>
                 </td>
                 <td class="table-column">
                     <form action="/users/${user.id}/kick" method="post">
+                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                         <button class="none-border-btn" type="submit"><img src="kick.svg" alt="kick"></button>
                     </form>
                 </td>

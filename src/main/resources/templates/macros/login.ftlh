@@ -27,9 +27,9 @@
         </div>
         <#if isRegistration>
             <div class="form-group row">
-                <label for="passwordConfirmation" class="col-sm-2 col-form-label">Password:</label>
+                <label for="passwordConfirmation" class="col-sm-2 col-form-label">Confirm password:</label>
                 <div class="col-sm-6">
-                    <input id="passwordConfirmation" aria-describedby="pwdHelp" placeholder="Retype password"
+                    <input id="passwordConfirmation" aria-describedby="pwdHelp" placeholder="Confirm password"
                            class="form-control ${(passwordConfirmationError??)?string('is-invalid', '')}"
                            type="password" name="passwordConfirmation"/>
                     <#if passwordConfirmationError??>
