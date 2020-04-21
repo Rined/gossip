@@ -1,6 +1,8 @@
 package com.rined.gossip.services;
 
 import com.rined.gossip.model.User;
+import com.rined.gossip.properties.GossipProperties;
+import com.rined.gossip.properties.GossipProperties.MailTemplates;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -15,17 +17,16 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class MailTemplateServiceImpl implements MailTemplateService {
-    private static final String PREFIX = "mail/%s";
-    private static final String ACTIVATION_TEMPLATE = "activation.ftlh";
-
     private final Configuration freemarkerConfig;
+    private final GossipProperties appProperties;
 
     @Override
     public String activationTemplate(User user) {
+        MailTemplates mailTemplates = appProperties.getMailTemplates();
         String username = user.getUsername();
         String activationCode = user.getActivationCode();
         try {
-            Template template = freemarkerConfig.getTemplate(String.format(PREFIX, ACTIVATION_TEMPLATE));
+            Template template = freemarkerConfig.getTemplate(mailTemplates.getActivation());
             Map<String, String> map = new HashMap<>();
             map.put("name", username);
             map.put("activation", activationCode);

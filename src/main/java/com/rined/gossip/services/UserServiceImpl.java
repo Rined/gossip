@@ -5,6 +5,7 @@ import com.rined.gossip.model.Role;
 import com.rined.gossip.model.User;
 import com.rined.gossip.model.dto.UserStatusDto;
 import com.rined.gossip.repositories.UserRepository;
+import com.rined.gossip.services.events.SendMailEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +24,9 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     private final UserConverter userConverter;
     private final UserRepository repository;
-    private final MailSender sender;
     private final PasswordEncoder encoder;
     private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
-    private final MailTemplateService mailTemplateService;
+    private final SendMailEventPublisher mailEventPublisher;
 
     @Override
     public boolean createUser(User user) {
@@ -37,15 +37,9 @@ public class UserServiceImpl implements UserService {
             user.setActivationCode(UUID.randomUUID().toString());
             user.setPassword(encoder.encode(user.getPassword()));
             repository.save(user);
-            sendMessage(user);
+            mailEventPublisher.publishMailActivationEvent(user);
         }
         return exists;
-    }
-
-    private void sendMessage(User user) {
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            sender.sendHtml(user.getEmail(), "Activation code", mailTemplateService.activationTemplate(user));
-        }
     }
 
     @Override
@@ -98,7 +92,7 @@ public class UserServiceImpl implements UserService {
         repository.save(user);
 
         if (isEmailChanged)
-            sendMessage(user);
+            mailEventPublisher.publishMailActivationEvent(user);
     }
 
     @Override
