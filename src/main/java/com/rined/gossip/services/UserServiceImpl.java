@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private final MailSender sender;
     private final PasswordEncoder encoder;
     private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
-
+    private final MailTemplateService mailTemplateService;
 
     @Override
     public boolean createUser(User user) {
@@ -44,13 +44,7 @@ public class UserServiceImpl implements UserService {
 
     private void sendMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                    "Hello, %s!\nWelcome to Just-Talk! " +
-                            "Please, visit next link for activation: http://localhost:8080/activate/%s",
-                    user.getUsername(),
-                    user.getActivationCode()
-            );
-            sender.send(user.getEmail(), "Activation code", message);
+            sender.sendHtml(user.getEmail(), "Activation code", mailTemplateService.activationTemplate(user));
         }
     }
 
