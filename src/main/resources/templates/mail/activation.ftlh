@@ -11,10 +11,10 @@
 <body>
 <div class="card">
     <div class="container">
-        <h3><b>Dear ${name}</b></h3>
+        <h3><b>Dear ${user.username}</b></h3>
         <div>Welcome to Gossip!</div>
         <p>
-            Please, visit next <a href="http://localhost:8080/activate/${activation}">link</a> for activation!
+            Please, visit next <a href="http://localhost:8080/activate/${user.activationCode}">link</a> for activation!
         </p>
         <div>
             <p>Best regards : <br> <b>Gossip</b></p>

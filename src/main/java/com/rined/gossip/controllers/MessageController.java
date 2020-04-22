@@ -31,10 +31,10 @@ public class MessageController {
     private final MessageService messageService;
 
     @GetMapping("/main")
-    public String main(Model model,
-                       @AuthenticationPrincipal User user,
+    public String main(@AuthenticationPrincipal User user,
                        @RequestParam(name = "filter", required = false, defaultValue = "") String filter,
-                       @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+                       @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
+                       Model model) {
         Page<MessageDto> messagesByFilter = messageService.getMessages(filter, user, pageable);
         model.addAttribute("page", messagesByFilter);
         model.addAttribute("filter", filter);
@@ -64,7 +64,6 @@ public class MessageController {
                                @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
                                Model model) {
         Page<MessageDto> page = messageService.userMessageList(pageable, messageAuthor, currentUser);
-
         model.addAttribute("userChannel", messageAuthor);
         model.addAttribute("subscriptionsCount", messageAuthor.getSubscriptions().size());
         model.addAttribute("subscribersCount", messageAuthor.getSubscribers().size());
@@ -94,13 +93,7 @@ public class MessageController {
                        @PathVariable("message") Message message,
                        RedirectAttributes redirectAttributes,               // для передачи параметров с одной страницы на другую
                        @RequestHeader(required = false, name = "referer") String referer) {  // откуда пришли
-        Set<User> likes = message.getLikes();
-        if (likes.contains(currentUser)) {
-            likes.remove(currentUser);
-        } else {
-            likes.add(currentUser);
-        }
-
+        messageService.like(message, currentUser);
         UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(referer).build();
         redirectAttributes.addAllAttributes(uriComponents.getQueryParams());
         return "redirect:" + uriComponents.getPath();

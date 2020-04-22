@@ -43,7 +43,6 @@ public class RegistrationController {
         CaptchaResponseDto response = restTemplate.postForObject(url, null, CaptchaResponseDto.class);
 
         if (Objects.nonNull(response) && !response.isSuccess()) {
-            System.err.println("ERROR!");
             model.addAttribute("captchaError", "Fill captcha!");
         }
 
@@ -78,7 +77,8 @@ public class RegistrationController {
         boolean isActivated = service.activateUser(code);
         model.addAttribute("message",
                 isActivated ? "User successfully activated" : "Activation code is not found!");
-        model.addAttribute("messageType", isActivated ? "success" : "danger");
+        model.addAttribute("messageType",
+                isActivated ? "success" : "danger");
         return "login";
     }
 }

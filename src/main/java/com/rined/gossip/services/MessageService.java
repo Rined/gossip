@@ -18,4 +18,6 @@ public interface MessageService {
     void saveMessage(Message message, String text, String tag, MultipartFile file);
 
     Page<MessageDto> userMessageList(Pageable pageable, User messageAuthor, User currentUser);
+
+    void like(Message message, User currentUser);
 }

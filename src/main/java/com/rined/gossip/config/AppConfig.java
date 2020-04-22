@@ -2,6 +2,7 @@ package com.rined.gossip.config;
 
 import com.rined.gossip.properties.MailProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -9,7 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@EnableAsync
 @Configuration
 @RequiredArgsConstructor
 @PropertySource("classpath:gossip.properties")

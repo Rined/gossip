@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
     public boolean createUser(User user) {
         boolean exists = repository.existsByUsername(user.getUsername());
         if (!exists) {
-            user.setActive(true);
             user.setRoles(Collections.singleton(Role.USER));
             user.setActivationCode(UUID.randomUUID().toString());
             user.setPassword(encoder.encode(user.getPassword()));
@@ -66,6 +65,7 @@ public class UserServiceImpl implements UserService {
             return false;
         user.ifPresent((usr) -> {
             usr.setActivationCode(null);
+            usr.setActive(true);
             repository.save(usr);
         });
         return true;

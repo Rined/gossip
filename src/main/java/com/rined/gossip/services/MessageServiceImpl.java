@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +60,15 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Page<MessageDto> userMessageList(Pageable pageable, User messageAuthor, User currentUser) {
         return repository.findMessageDtoBy(messageAuthor, currentUser, pageable);
+    }
+
+    @Override
+    public void like(Message message, User currentUser) {
+        Set<User> likes = message.getLikes();
+        if (likes.contains(currentUser)) {
+            likes.remove(currentUser);
+        } else {
+            likes.add(currentUser);
+        }
     }
 }

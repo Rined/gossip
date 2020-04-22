@@ -1,5 +1,6 @@
-package com.rined.gossip.services;
+package com.rined.gossip.components;
 
+import com.rined.gossip.services.UploadFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
