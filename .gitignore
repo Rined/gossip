@@ -1,7 +1,9 @@
-**/.idea
-**.iml
-**/target
 .idea
+**/.idea
+**/target
+**/uploads/
+
+**.iml
 **.log
 
 **/**.iml
